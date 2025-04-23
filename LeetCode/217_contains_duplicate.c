@@ -3,27 +3,18 @@ Given an integer array nums, return true if any value appears at least twice in 
 */
 #include <stdio.h>
 #include <assert.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
-typedef struct{
-    int keys[100000];
-    int count;
-} HashTable;
-
-bool containsKey(HashTable* ht, int key){
-    for (int i = 0; i < ht->count; ++i){
-        if (ht->keys[i] == key)
-            return true;
-    }
-    return false;
+int compare(const void *a, const void *b){
+    return (*(int*)a - *(int*)b);
 }
 
 bool containsDuplicate(int* nums, int numSize){
-    HashTable ht = {.count = 0};
-    for(int i = 0; i < numSize; ++i){
-        if(containsKey(&ht, nums[i]))
+    qsort(nums, numSize, sizeof(int), compare);
+    for(int i = 0; i < numSize - 1; ++i){
+        if(nums[i] == nums[i+1])
             return true;
-        ht.keys[ht.count++] = nums[i];
         }
     return false;
 } 
